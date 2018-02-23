@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Movies</title>
+</head>
+
+<body class="bg-light" background="http://cdn.iphonehacks.com/wp-content/uploads/2017/05/minimal_wallpaper_2-576x1024.jpg">
+<div class="container" id="root">
+    <div class="row justify-content-center  mt=5">
+        <div class="col-md-7">
+            <div class="card">
+                <div class="card-body p-0">
+                    <table class="table">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Number</th>
+                            <th>Name</th>
+                            <th>country</th>
+                            <th>Actor</th>
+                            <th>isAiring</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr v-for="(item,index) in movies">
+                            <td>{{index+1}}</td>
+                            <td>{{item.name}}</td>
+                            <td>{{item.country}}</td>
+                            <td>{{item.actor}}</td>
+                            <td>{{item.isAiring}}</td>
+                            <td>
+                                <button @click="removeMovie(item._id)" class="btn btn-danger btn-sm"> delete</button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
+</body>
+</html>
+<script>
+    var app = new Vue({
+        el: "#root",
+        data: {
+            movies: []
+        },
+        methods: {
+
+            removeMovie: function (id) {
+                console.log(id)
+                axios.delete('api/movie',
+                    {
+                        params: {id: id}
+
+                    })
+            }
+        },
+
+        mounted: function () {
+            alert("enjoy :)")
+            axios.get("/api/movie").then(function (response) {
+                console.log(response.data)
+                app.movies = response.data;
+
+            })
+        }
+    })
+</script>
